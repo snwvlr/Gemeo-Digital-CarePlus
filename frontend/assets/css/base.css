@@ -1,0 +1,103 @@
+/* CarePlus - Design System (tokens + componentes compartilhados) */
+
+:root {
+  --bg:        #0b1120;
+  --bg-soft:   #0f172a;
+  --surface:   rgba(30, 41, 59, 0.55);
+  --surface-2: rgba(17, 24, 39, 0.55);
+  --border:    rgba(148, 163, 184, 0.12);
+  --border-hover: rgba(17, 82, 212, 0.45);
+
+  --primary:   #1152d4;
+  --primary-2: #3b82f6;
+  --text:      #e2e8f0;
+  --muted:     #94a3b8;
+
+  --ok:    #10b981;
+  --warn:  #f59e0b;
+  --bad:   #ef4444;
+
+  --radius: 1.25rem;
+  --shadow: 0 12px 40px -18px rgba(17, 82, 212, 0.5);
+}
+
+/* Fundo escuro imediato para evitar flash branco ao trocar de página. */
+html { background: #0b1120; color-scheme: dark; }
+body { font-family: 'Inter', sans-serif; background: #0b1120; }
+
+/* Sticky footer aplicado já no carregamento (evita reflow do shell.js). */
+body { display: flex; flex-direction: column; min-height: 100vh; }
+body > main { flex: 1 0 auto; }
+#cp-footer { margin-top: auto; flex-shrink: 0; }
+
+/* Fundo neutro (sem luzes coloridas chamativas) */
+.aurora { background: var(--bg); }
+.aurora::before {
+  content: "";
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background: radial-gradient(70rem 45rem at 50% -20%, rgba(17,82,212,0.10), transparent 60%);
+}
+
+/* Card padrão */
+.card {
+  background: linear-gradient(160deg, var(--surface), var(--surface-2));
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  position: relative; z-index: 1;
+  transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+}
+.card-hover:hover { border-color: var(--border-hover); box-shadow: var(--shadow); transform: translateY(-2px); }
+
+/* Bento grid */
+.bento { display: grid; gap: 1rem; align-items: start; grid-template-columns: repeat(1, minmax(0,1fr)); }
+@media (min-width: 768px)  { .bento { grid-template-columns: repeat(4, minmax(0,1fr)); } }
+@media (min-width: 1280px) { .bento { grid-template-columns: repeat(6, minmax(0,1fr)); } }
+.col-1 { grid-column: span 1; }
+.col-2 { grid-column: span 2; } .col-3 { grid-column: span 3; }
+.col-4 { grid-column: span 4; } .col-6 { grid-column: span 6; }
+.row-2 { grid-row: span 2; }
+@media (max-width: 767px) { .col-2,.col-3,.col-4,.col-6 { grid-column: span 1; } .row-2 { grid-row: span 1; } }
+
+/* Botões */
+.btn { display:inline-flex; align-items:center; justify-content:center; gap:.4rem; font-weight:700;
+       border-radius:.75rem; padding:.65rem 1rem; font-size:.875rem; transition:all .2s; cursor:pointer; }
+.btn-primary { background: var(--primary); color:#fff; }
+.btn-primary:hover { background:#0e44b0; }
+.btn-soft { background: rgba(30,41,59,.7); color: var(--text); }
+.btn-soft:hover { background: rgba(51,65,85,.9); }
+
+/* Status chips */
+.chip { display:inline-flex; align-items:center; gap:.35rem; font-size:.7rem; font-weight:700;
+        text-transform:uppercase; letter-spacing:.04em; padding:.25rem .6rem; border-radius:999px; }
+.chip-ok   { background: rgba(16,185,129,.18); color:#34d399; }
+.chip-warn { background: rgba(245,158,11,.18); color:#fbbf24; }
+.chip-bad  { background: rgba(239,68,68,.18);  color:#f87171; }
+.chip-muted{ background: rgba(100,116,139,.25); color:#cbd5e1; }
+
+/* Modal */
+.modal { position: fixed; inset: 0; z-index: 200; display:none; align-items:center; justify-content:center; padding:1rem; }
+.modal.open { display:flex; }
+.modal-backdrop { position:absolute; inset:0; background: rgba(2,6,23,.75); backdrop-filter: blur(6px); }
+.modal-panel { position:relative; z-index:1; width:100%; max-width:680px; max-height:88vh; overflow-y:auto;
+  background: var(--bg-soft); border:1px solid rgba(148,163,184,.18); border-radius: var(--radius);
+  animation: cp-pop .25s ease-out; }
+@keyframes cp-pop { from{opacity:0; transform:translateY(12px) scale(.98);} to{opacity:1; transform:none;} }
+
+@keyframes cpToastIn { from { opacity:0; transform: translateY(8px); } to { opacity:1; transform:none; } }
+
+/* Toast (CareToast): tira o traço colorido grosso da lateral esquerda e deixa
+   um contorno fino e uniforme. O ícone continua colorido conforme o tipo. */
+#cp-toasts > div { border-width: 1px !important; border-color: #1e293b !important; }
+
+/* Selects e date inputs com visual escuro consistente */
+select, input[type="date"], input[type="time"] { color-scheme: dark; }
+select.cp-select {
+  appearance: none; -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'><path d='M6 9l6 6 6-6'/></svg>");
+  background-repeat: no-repeat; background-position: right .7rem center; padding-right: 2.2rem;
+}
+
+/* Scrollbar discreta */
+.thin-scroll::-webkit-scrollbar { width:6px; height:6px; }
+.thin-scroll::-webkit-scrollbar-thumb { background: rgba(148,163,184,.3); border-radius:999px; }

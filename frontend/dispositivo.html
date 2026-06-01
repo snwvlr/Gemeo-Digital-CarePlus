@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html class="dark" lang="pt-BR">
+<head>
+    <style>html,body{background:#0b1120}</style>
+    <meta charset="utf-8"/>
+    <meta name="cp-sig" content="c0622bb0"/>    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <script>/* CarePlus-tw-silence: oculta o aviso "cdn.tailwindcss.com should not be used in production" no console (uso local/academico). */(function(){var _w=console.warn;console.warn=function(){var a=arguments[0];if(typeof a==="string"&&a.indexOf("cdn.tailwindcss.com")>-1)return;return _w.apply(console,arguments);};})();</script>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <script src="assets/js/tailwind.config.js"></script>
+    
+<link rel="stylesheet" href="assets/css/base.css"/>
+<link rel="stylesheet" href="assets/css/dispositivo.css"/>
+</head>
+<body class="bg-background-dark text-slate-100 min-h-screen">
+    
+    <div id="sync-overlay">
+        <div class="text-center p-8 max-w-sm w-full">
+            <div class="mb-6 relative">
+                <div class="size-20 border-4 border-primary/20 border-t-primary rounded-full animate-spin mx-auto"></div>
+                <span class="material-symbols-outlined absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-primary text-3xl">sync</span>
+            </div>
+            <h3 class="text-xl font-bold mb-2" id="sync-title">Sincronizando Dados</h3>
+            <p class="text-slate-400 text-sm mb-6" id="sync-msg">Enviando novas calibrações para o dispositivo via Bluetooth...</p>
+            <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                <div id="sync-bar" class="bg-primary h-full w-0 transition-all duration-300"></div>
+            </div>
+        </div>
+    </div>
+
+    <header class="flex items-center justify-between border-b border-slate-800 px-6 py-4 lg:px-40 sticky top-0 z-50 bg-background-dark/80 backdrop-blur-md">
+        <div class="flex items-center gap-4">
+            <a href="index.html" class="p-2 hover:bg-slate-800 rounded-lg transition-colors">
+                <span class="material-symbols-outlined">arrow_back</span>
+            </a>
+            <div>
+                <h2 class="text-xl font-bold">Configuração do Dispositivo</h2>
+                <span class="text-[10px] uppercase tracking-widest text-primary font-bold">Monitoramento em Tempo Real</span>
+            </div>
+        </div>
+        <div class="flex items-center gap-2">
+            <span class="size-2 bg-emerald-500 rounded-full pulse"></span>
+            <span class="text-xs font-medium text-emerald-500">Aparelho Conectado</span>
+        </div>
+    </header>
+
+    <main class="px-6 py-8 lg:px-40 max-w-[1200px] mx-auto w-full">
+        <div class="mb-10">
+            <h1 class="text-3xl font-black mb-2">Painel de Sensores</h1>
+            <p class="text-slate-400">Gerencie a sensibilidade e calibração dos periféricos conectados ao paciente.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="glass-card p-6 rounded-2xl relative overflow-hidden">
+                <div class="flex justify-between items-start mb-6 text-red-500">
+                    <div class="flex items-center gap-3">
+                        <div class="p-3 bg-red-500/20 rounded-xl"><span class="material-symbols-outlined">favorite</span></div>
+                        <div><h3 class="font-bold text-white">Frequência Cardíaca</h3><p class="text-xs text-slate-500">Sensor Óptico PPG</p></div>
+                    </div>
+                    <span class="text-xs font-bold text-emerald-500">ATIVO</span>
+                </div>
+                <input type="range" class="w-full h-2 bg-slate-700 rounded-lg appearance-none accent-primary">
+            </div>
+
+            <div class="glass-card p-6 rounded-2xl relative overflow-hidden" id="card-pressao">
+                <div id="loader-pressao" class="local-loader">
+                    <div class="size-8 border-2 border-primary/20 border-t-primary rounded-full animate-spin mb-2"></div>
+                    <span class="text-[10px] font-bold text-primary uppercase">Insuflado manguito...</span>
+                </div>
+                <div class="flex justify-between items-start mb-6 text-blue-500">
+                    <div class="flex items-center gap-3">
+                        <div class="p-3 bg-blue-500/20 rounded-xl"><span class="material-symbols-outlined">blood_pressure</span></div>
+                        <div><h3 class="font-bold text-white">Pressão Arterial</h3><p class="text-xs text-slate-500">Manguito Digital</p></div>
+                    </div>
+                    <span id="status-pressao" class="text-xs font-bold text-emerald-500">ATIVO</span>
+                </div>
+                <button onclick="recalibrarLocal('pressao')" class="w-full py-2 bg-slate-800 border border-slate-700 rounded-lg text-xs font-bold hover:bg-primary transition-colors flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-sm">restart_alt</span> RECALIBRAR
+                </button>
+            </div>
+
+            <div class="glass-card p-6 rounded-2xl relative overflow-hidden">
+                <div class="flex justify-between items-start mb-6 text-cyan-500">
+                    <div class="flex items-center gap-3">
+                        <div class="p-3 bg-cyan-500/20 rounded-xl"><span class="material-symbols-outlined">air</span></div>
+                        <div><h3 class="font-bold text-white">Oxigênio (SpO2)</h3><p class="text-xs text-slate-500">Infravermelho</p></div>
+                    </div>
+                    <span class="text-xs font-bold text-emerald-500">ATIVO</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-sm text-slate-300">Modo Contínuo</span>
+                    <div class="size-6 bg-primary rounded-full flex items-center justify-center"><span class="material-symbols-outlined text-[16px]">check</span></div>
+                </div>
+            </div>
+
+            <div class="glass-card p-6 rounded-2xl relative overflow-hidden" id="card-glicose">
+                <div id="loader-glicose" class="local-loader">
+                    <div class="size-8 border-2 border-amber-500/20 border-t-amber-500 rounded-full animate-spin mb-2"></div>
+                    <span class="text-[10px] font-bold text-amber-500 uppercase">Analisando Amostra...</span>
+                </div>
+                <div class="flex justify-between items-start mb-6 text-amber-500">
+                    <div class="flex items-center gap-3">
+                        <div class="p-3 bg-amber-500/20 rounded-xl"><span class="material-symbols-outlined">opacity</span></div>
+                        <div><h3 class="font-bold text-white">Glicose</h3><p class="text-xs text-slate-500">Não Invasivo</p></div>
+                    </div>
+                    <span id="status-glicose" class="text-xs font-bold text-amber-500">AGUARDANDO</span>
+                </div>
+                <select onchange="recalibrarLocal('glicose')" class="w-full bg-slate-800 border-slate-700 rounded-lg text-sm">
+                    <option value="">Selecione o Modo...</option>
+                    <option>Pós-Prandial</option>
+                    <option>Jejum</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="mt-10 flex flex-col md:flex-row gap-4 justify-center">
+            <button onclick="iniciarSincronizacao()" class="px-8 py-4 bg-primary text-white font-black rounded-xl hover:scale-105 transition-all shadow-lg shadow-primary/20">
+                SALVAR CONFIGURAÇÕES NO DISPOSITIVO
+            </button>
+        </div>
+    </main>
+
+    
+<script src="assets/js/dispositivo.js"></script>
+<script src="assets/js/guard.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/avatar.js"></script>
+<script src="assets/js/shell.js"></script>
+</body>
+</html>

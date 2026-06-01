@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html class="dark" lang="pt-BR">
+<head>
+<style>html,body{background:#0b1120}</style>
+<meta charset="utf-8"/>
+<meta name="cp-sig" content="c0622bb0"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CarePlus · Exames</title>
+<script>/* CarePlus-tw-silence: oculta o aviso "cdn.tailwindcss.com should not be used in production" no console (uso local/academico). */(function(){var _w=console.warn;console.warn=function(){var a=arguments[0];if(typeof a==="string"&&a.indexOf("cdn.tailwindcss.com")>-1)return;return _w.apply(console,arguments);};})();</script>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<script src="assets/js/tailwind.config.js"></script>
+<link rel="stylesheet" href="assets/css/base.css"/>
+</head>
+<body class="aurora text-slate-100 min-h-screen">
+
+<main class="relative z-10 px-5 lg:px-10 py-6 max-w-[1400px] mx-auto">
+
+  <div class="mb-5">
+    <h1 class="text-2xl lg:text-3xl font-black">Exames</h1>
+    <p class="text-slate-400 text-sm">Seus resultados laboratoriais com leitura assistida por IA.</p>
+  </div>
+
+  <!-- Resumo -->
+  <div class="grid grid-cols-3 gap-3 mb-5">
+    <div class="card p-4 text-center"><div id="sum-paineis" class="text-2xl font-black">–</div><div class="text-[11px] text-slate-400 uppercase tracking-wide">Painéis</div></div>
+    <div class="card p-4 text-center"><div id="sum-marcadores" class="text-2xl font-black">–</div><div class="text-[11px] text-slate-400 uppercase tracking-wide">Marcadores</div></div>
+    <div class="card p-4 text-center"><div id="sum-alterados" class="text-2xl font-black text-amber-400">–</div><div class="text-[11px] text-slate-400 uppercase tracking-wide">Alterados</div></div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-5">
+
+    <!-- Lista de painéis -->
+    <aside class="card p-4 h-fit">
+      <h3 class="font-bold mb-3 flex items-center gap-2 text-sm"><span class="material-symbols-outlined text-primary">labs</span> Painéis</h3>
+      <div id="panel-list" class="flex flex-col gap-2"><span class="text-slate-500 text-sm">Carregando…</span></div>
+
+      <input id="exam-file" type="file" accept="application/pdf,.pdf" class="hidden"/>
+      <button id="exam-upload" class="btn btn-soft w-full mt-3"><span class="material-symbols-outlined" style="font-size:18px">upload_file</span> Enviar PDF de exame</button>
+      <p class="text-[10px] text-slate-500 mt-2 leading-relaxed">O arquivo fica no seu dispositivo. A IA não lê nem diagnostica o PDF — ele serve para você levar ao seu médico.</p>
+    </aside>
+
+    <!-- Detalhe -->
+    <section id="panel-detail" class="card p-6 min-h-[300px]">
+      <span class="text-slate-500 text-sm">Selecione um painel para ver os resultados.</span>
+    </section>
+  </div>
+</main>
+
+<script src="assets/js/guard.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/avatar.js"></script>
+<script src="assets/js/shell.js"></script>
+<script src="assets/js/exames.js"></script>
+</body>
+</html>

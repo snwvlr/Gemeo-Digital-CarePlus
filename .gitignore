@@ -1,0 +1,48 @@
+# ===================== CarePlus · .gitignore =====================
+
+# --- Segredos / ambiente ---
+.env
+backend/.env
+*.env
+!*.env.example
+
+# --- REGRA DE OURO: nunca subir o código LIMPO de segurança ---
+# O código legível vive só na sua máquina. No repositório vai só o ofuscado.
+dev/
+src/
+_backup_legivel/
+_banner.txt
+*.clean.js
+*.clean.js.map
+
+# --- Documentos e scripts privados (não publicar) ---
+# Revelam o mecanismo de proteção e o roteiro da apresentação.
+docs/PROTECAO.md
+docs/ROTEIRO_APRESENTACAO.md
+build.bat
+build.sh
+build_protect.*
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+
+# --- Node / build ---
+node_modules/
+package-lock.json
+*.tmp
+
+# --- Sistema / editores ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# --- Logs ---
+*.log

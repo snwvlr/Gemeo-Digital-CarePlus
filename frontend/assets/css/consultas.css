@@ -1,0 +1,4 @@
+/* CarePlus - estilos da página consultas */
+body { font-family: 'Inter', sans-serif; }
+        .doctor-selected { border-color: #1152d4 !important; background-color: rgba(17, 82, 212, 0.1) !important; }
+        .day-selected { background-color: #1152d4 !important; color: white !important; font-weight: bold; box-shadow: 0 4px 6px -1px rgba(17, 82, 212, 0.3); }

@@ -1,0 +1,32 @@
+/* CarePlus - estilos da página dispositivo */
+body { font-family: 'Inter', sans-serif; }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+        
+        #sync-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(16, 22, 34, 0.9);
+            z-index: 999;
+            align-items: center;
+            justify-content: center;
+            backdrop-blur: 5px;
+        }
+
+        .local-loader {
+            display: none;
+            position: absolute;
+            inset: 0;
+            background: rgba(16, 22, 34, 0.85);
+            z-index: 20;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 1rem;
+        }

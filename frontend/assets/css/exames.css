@@ -1,0 +1,21 @@
+/* CarePlus - estilos da página exames */
+body { font-family: 'Inter', sans-serif; }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .animate-slide {
+            animation: slideInRight 0.4s ease-out forwards;
+        }
+
+        .tab-active {
+            background-color: rgba(17, 82, 212, 0.15) !important;
+            border-left-color: #1152d4 !important;
+            color: white !important;
+        }

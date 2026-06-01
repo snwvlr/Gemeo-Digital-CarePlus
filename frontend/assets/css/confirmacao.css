@@ -1,0 +1,7 @@
+/* CarePlus - estilos da página confirmacao */
+body { font-family: 'Inter', sans-serif; }
+        .glass-effect {
+            background: rgba(15, 22, 34, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(17, 82, 212, 0.2);
+        }

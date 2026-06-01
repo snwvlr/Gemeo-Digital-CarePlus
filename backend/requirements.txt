@@ -1,0 +1,8 @@
+# Versões mínimas (não fixadas) para garantir wheels compatíveis com
+# Python 3.13/3.14. O pip baixará as versões estáveis mais recentes.
+fastapi>=0.115
+uvicorn[standard]>=0.34
+pydantic>=2.11
+pydantic-settings>=2.7
+google-genai>=1.10
+python-dotenv>=1.0

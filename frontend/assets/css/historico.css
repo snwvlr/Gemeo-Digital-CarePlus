@@ -1,0 +1,31 @@
+/* CarePlus - estilos da página historico */
+body { font-family: 'Inter', sans-serif; }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 8px;
+            bottom: -30px;
+            width: 2px;
+            background: rgba(17, 82, 212, 0.3);
+            z-index: 0;
+        }
+        .timeline-item:last-child .timeline-line::before { display: none; }
+        
+        /* Animação do Gráfico */
+        @keyframes growUp {
+            from { height: 0; opacity: 0; }
+        }
+        .animate-grow {
+            animation: growUp 1.2s cubic-bezier(0.1, 0.7, 0.1, 1) forwards;
+        }
+        
+        /* Animação de brilho suave no fundo */
+        .ambient-glow {
+            box-shadow: 0 0 40px -10px rgba(17, 82, 212, 0.15);
+        }

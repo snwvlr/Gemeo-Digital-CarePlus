@@ -1,0 +1,9 @@
+/* CarePlus - Dashboard */
+.avatar-frame { transition: filter .6s ease; }
+/* Sem glow colorido; apenas uma sombra neutra discreta. */
+.avatar-frame.glow { filter: drop-shadow(0 6px 16px rgba(0,0,0,.35)); }
+.ring-track { stroke: rgba(148,163,184,0.18); }
+.ring-fill  { stroke: var(--twin-color, #1152d4); transition: stroke-dashoffset 1s ease, stroke .6s ease; stroke-linecap: round; }
+
+.quick a { transition: all .2s; }
+.quick a:hover { background: rgba(17,82,212,.14); transform: translateX(2px); }

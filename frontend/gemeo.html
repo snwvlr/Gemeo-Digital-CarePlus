@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html class="dark" lang="pt-BR">
+<head>
+<style>html,body{background:#0b1120}</style>
+<meta charset="utf-8"/>
+<meta name="cp-sig" content="c0622bb0"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CarePlus · Gêmeo Digital</title>
+<script>/* CarePlus-tw-silence: oculta o aviso "cdn.tailwindcss.com should not be used in production" no console (uso local/academico). */(function(){var _w=console.warn;console.warn=function(){var a=arguments[0];if(typeof a==="string"&&a.indexOf("cdn.tailwindcss.com")>-1)return;return _w.apply(console,arguments);};})();</script>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<script src="assets/js/tailwind.config.js"></script>
+<link rel="stylesheet" href="assets/css/base.css"/>
+<link rel="stylesheet" href="assets/css/gemeo.css"/>
+</head>
+<body class="aurora text-slate-100 min-h-screen">
+
+<!-- cabeçalho padrão injetado pelo shell.js -->
+
+<main class="relative z-10 px-5 lg:px-10 py-6 max-w-[1400px] mx-auto">
+  <div class="grid grid-cols-1 lg:grid-cols-[360px_1fr] gap-5 items-start">
+
+    <!-- COLUNA ESQUERDA -->
+    <div class="flex flex-col gap-5">
+
+      <!-- AVATAR -->
+      <section class="card p-6 flex flex-col items-center text-center">
+        <div class="flex items-center gap-2 self-start mb-2">
+          <span class="size-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span class="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Tempo real</span>
+        </div>
+        <div id="avatar-frame" class="avatar-frame glow mt-1 mb-4" style="--twin-color:#1152d4">
+          <img id="avatar-img" alt="Avatar do gêmeo digital" width="172" height="172"
+               class="rounded-2xl bg-slate-800/40" src=""/>
+        </div>
+        <h2 id="twin-mood" class="text-2xl font-black">Carregando…</h2>
+        <p id="twin-summary" class="text-slate-400 text-sm mt-1 mb-4 min-h-[40px]">Lendo seus sinais vitais…</p>
+
+        <div class="relative size-24 mb-4">
+          <svg viewBox="0 0 120 120" class="size-24 -rotate-90">
+            <circle class="ring-track" cx="60" cy="60" r="52" fill="none" stroke-width="10"/>
+            <circle id="score-ring" class="ring-fill" cx="60" cy="60" r="52" fill="none" stroke-width="10"
+                    stroke-dasharray="327" stroke-dashoffset="327" style="--twin-color:#1152d4"/>
+          </svg>
+          <div class="absolute inset-0 grid place-items-center">
+            <div><div id="score-num" class="text-2xl font-black leading-none">–</div><div class="text-[10px] text-slate-400 uppercase tracking-wider">saúde</div></div>
+          </div>
+        </div>
+
+        <div class="flex gap-2 w-full">
+          <button onclick="openAvatarModal()" class="flex-1 py-2.5 rounded-xl bg-slate-800/70 hover:bg-slate-700 text-sm font-bold flex items-center justify-center gap-1.5 transition-colors"><span class="material-symbols-outlined text-[18px]">tune</span> Personalizar</button>
+          <button onclick="openModal('modal-wearables')" class="flex-1 py-2.5 rounded-xl bg-primary hover:bg-primary/80 text-sm font-bold flex items-center justify-center gap-1.5 transition-colors"><span class="material-symbols-outlined text-[18px]">add_link</span> Parear</button>
+        </div>
+      </section>
+
+      <!-- AÇÕES IA -->
+      <section class="card p-5 flex flex-col gap-2">
+        <h3 class="font-bold mb-1 flex items-center gap-2 text-sm"><span class="material-symbols-outlined text-primary">auto_awesome</span> Inteligência</h3>
+        <button onclick="runAnalysis()" class="w-full py-2.5 rounded-xl bg-primary/15 text-primary hover:bg-primary/25 text-sm font-bold flex items-center justify-center gap-1.5 transition-colors"><span class="material-symbols-outlined text-[18px]">insights</span> Analisar saúde</button>
+        <button onclick="openReport()" class="w-full py-2.5 rounded-xl bg-slate-800/70 hover:bg-slate-700 text-sm font-bold flex items-center justify-center gap-1.5 transition-colors"><span class="material-symbols-outlined text-[18px]">clinical_notes</span> Relatório p/ médico</button>
+        <button onclick="simulate('cardiac')" class="w-full py-2.5 rounded-xl bg-slate-800/40 hover:bg-red-500/20 hover:text-red-300 text-xs font-medium text-slate-400 flex items-center justify-center gap-1.5 transition-colors mt-1"><span class="material-symbols-outlined text-[16px]">science</span> Simular evento (demo)</button>
+        <button onclick="resetVitals()" class="w-full py-2.5 rounded-xl bg-slate-800/40 hover:bg-emerald-500/20 hover:text-emerald-300 text-xs font-medium text-slate-400 flex items-center justify-center gap-1.5 transition-colors"><span class="material-symbols-outlined text-[16px]">restart_alt</span> Voltar ao normal</button>
+      </section>
+
+      <!-- ANÁLISE (resultado) -->
+      <section id="analysis-card" class="card p-5 hidden">
+        <h3 class="font-bold mb-2 flex items-center gap-2 text-sm"><span class="material-symbols-outlined text-primary">monitoring</span> Análise da IA</h3>
+        <div id="analysis-body" class="text-sm text-slate-300"></div>
+      </section>
+    </div>
+
+    <!-- COLUNA DIREITA -->
+    <div class="flex flex-col gap-5">
+
+      <!-- VITAIS -->
+      <div id="vitals" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3"><!-- tiles via JS --></div>
+
+      <!-- ALERTAS -->
+      <section id="alerts-card" class="card p-5">
+        <h3 class="font-bold mb-3 flex items-center gap-2 text-sm"><span class="material-symbols-outlined text-amber-400">notification_important</span> Pontos de atenção</h3>
+        <ul id="alerts-list" class="space-y-2 text-sm text-slate-300"><li class="text-slate-500">Tudo estável por aqui.</li></ul>
+      </section>
+
+      <!-- CHAT -->
+      <section class="card flex flex-col flex-1 min-h-[520px]">
+        <div class="px-5 py-4 border-b border-slate-800 flex items-center gap-3">
+          <div class="size-9 grid place-items-center rounded-xl bg-primary/15 text-primary"><span class="material-symbols-outlined">smart_toy</span></div>
+          <div><h3 class="font-bold leading-tight">Converse com seu gêmeo</h3><span id="ai-label" class="text-[11px] text-slate-500">verificando IA…</span></div>
+        </div>
+        <div id="chat-log" class="chat-scroll flex-1 overflow-y-auto p-5 space-y-3"></div>
+        <div class="px-4 pb-2 flex flex-wrap gap-2" id="chat-suggestions">
+          <button class="sug text-xs px-3 py-1.5 rounded-full bg-slate-800/70 hover:bg-slate-700 text-slate-300">Como estou hoje?</button>
+          <button class="sug text-xs px-3 py-1.5 rounded-full bg-slate-800/70 hover:bg-slate-700 text-slate-300">Posso fazer exercício?</button>
+          <button class="sug text-xs px-3 py-1.5 rounded-full bg-slate-800/70 hover:bg-slate-700 text-slate-300">Tenho alguma alergia?</button>
+        </div>
+        <form id="chat-form" class="p-4 pt-2 border-t border-slate-800 flex gap-2">
+          <input id="chat-input" type="text" autocomplete="off" placeholder="Pergunte ao seu gêmeo digital…"
+                 class="flex-1 bg-slate-800/80 border-slate-700 rounded-xl text-sm focus:ring-primary focus:border-primary"/>
+          <button type="submit" class="size-11 grid place-items-center bg-primary hover:bg-primary/80 rounded-xl transition-colors"><span class="material-symbols-outlined">send</span></button>
+        </form>
+      </section>
+    </div>
+
+  </div>
+</main>
+
+<!-- ===== MODAL: Personalizar Avatar ===== -->
+<div id="modal-avatar" class="modal">
+  <div class="modal-backdrop" onclick="closeModal('modal-avatar')"></div>
+  <div class="modal-panel p-6">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-xl font-black flex items-center gap-2"><span class="material-symbols-outlined text-primary">face_retouching_natural</span> Personalizar avatar</h3>
+      <button onclick="closeModal('modal-avatar')" class="text-slate-400 hover:text-white"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-[160px_1fr] gap-6">
+      <div class="flex flex-col items-center">
+        <img id="avatar-preview" width="160" height="160" class="rounded-2xl bg-slate-800/50" src="" alt="Pré-visualização"/>
+        <span class="text-[11px] text-slate-500 mt-2">a expressão segue sua saúde</span>
+      </div>
+      <div class="space-y-4" id="avatar-controls"><!-- controles via JS --></div>
+    </div>
+    <div class="flex gap-2 mt-6">
+      <button onclick="closeModal('modal-avatar')" class="flex-1 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 font-bold text-sm">Cancelar</button>
+      <button onclick="saveAvatar()" class="flex-1 py-2.5 rounded-xl bg-primary hover:bg-primary/80 font-bold text-sm">Salvar avatar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL: Wearables ===== -->
+<div id="modal-wearables" class="modal">
+  <div class="modal-backdrop" onclick="closeModal('modal-wearables')"></div>
+  <div class="modal-panel p-6">
+    <div class="flex items-center justify-between mb-1">
+      <h3 class="text-xl font-black flex items-center gap-2"><span class="material-symbols-outlined text-primary">watch</span> Parear wearables</h3>
+      <button onclick="closeModal('modal-wearables')" class="text-slate-400 hover:text-white"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <p class="text-slate-400 text-sm mb-4">Conecte dispositivos para alimentar o gêmeo com dados em tempo real.</p>
+    <div id="wearables-list" class="grid grid-cols-1 sm:grid-cols-2 gap-3"><span class="text-slate-500 text-sm">Carregando…</span></div>
+  </div>
+</div>
+
+<!-- ===== MODAL: Relatório ===== -->
+<div id="modal-report" class="modal">
+  <div class="modal-backdrop" onclick="closeModal('modal-report')"></div>
+  <div class="modal-panel p-6">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-xl font-black flex items-center gap-2"><span class="material-symbols-outlined text-primary">clinical_notes</span> Relatório de saúde</h3>
+      <button onclick="closeModal('modal-report')" class="text-slate-400 hover:text-white"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <div id="report-body" class="text-sm text-slate-200 whitespace-pre-wrap leading-relaxed">Gerando…</div>
+    <p id="report-by" class="text-[10px] text-slate-500 mt-4"></p>
+    <button onclick="exportReportPdf()" class="btn btn-primary w-full mt-4"><span class="material-symbols-outlined" style="font-size:18px">picture_as_pdf</span> Exportar laudo em PDF</button>
+  </div>
+</div>
+
+<script src="assets/js/guard.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/avatar.js"></script>
+<script src="assets/js/shell.js"></script>
+<script src="assets/js/gemeo.js"></script>
+</body>
+</html>

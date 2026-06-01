@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html class="dark" lang="pt-BR">
+<head>
+<style>html,body{background:#0b1120}</style>
+<meta charset="utf-8"/>
+<meta name="cp-sig" content="c0622bb0"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CarePlus · Consultas</title>
+<script>/* CarePlus-tw-silence: oculta o aviso "cdn.tailwindcss.com should not be used in production" no console (uso local/academico). */(function(){var _w=console.warn;console.warn=function(){var a=arguments[0];if(typeof a==="string"&&a.indexOf("cdn.tailwindcss.com")>-1)return;return _w.apply(console,arguments);};})();</script>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<script src="assets/js/tailwind.config.js"></script>
+<link rel="stylesheet" href="assets/css/base.css"/>
+</head>
+<body class="aurora text-slate-100 min-h-screen">
+
+<main class="relative z-10 px-5 lg:px-10 py-6 max-w-[1100px] mx-auto">
+
+  <div class="mb-5">
+    <h1 class="text-2xl lg:text-3xl font-black">Agendar consulta</h1>
+    <p class="text-slate-400 text-sm">Marque uma teleconsulta ou atendimento presencial com a Care Plus.</p>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-5">
+
+    <section class="card p-6 space-y-6">
+
+      <!-- Tipo -->
+      <div>
+        <p class="text-xs font-bold text-slate-400 uppercase mb-2">Tipo de atendimento</p>
+        <div class="grid grid-cols-2 gap-3">
+          <button data-type="Telemedicina" class="type-btn card p-4 text-left border" data-default>
+            <span class="material-symbols-outlined text-primary">videocam</span>
+            <p class="font-bold mt-1">Telemedicina</p><p class="text-xs text-slate-400">por vídeo, de casa</p>
+          </button>
+          <button data-type="Presencial" class="type-btn card p-4 text-left border">
+            <span class="material-symbols-outlined text-emerald-400">local_hospital</span>
+            <p class="font-bold mt-1">Presencial</p><p class="text-xs text-slate-400">na unidade Care Plus</p>
+          </button>
+        </div>
+      </div>
+
+      <!-- Especialidade + médico -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div>
+          <label class="text-xs font-bold text-slate-400 uppercase">Especialidade</label>
+          <select id="specialty" class="cp-select w-full mt-1 bg-slate-800/80 border-slate-700 rounded-xl text-sm focus:ring-primary focus:border-primary"></select>
+        </div>
+        <div>
+          <label class="text-xs font-bold text-slate-400 uppercase">Médico</label>
+          <select id="doctor" class="cp-select w-full mt-1 bg-slate-800/80 border-slate-700 rounded-xl text-sm focus:ring-primary focus:border-primary"></select>
+        </div>
+      </div>
+
+      <!-- Data + horário -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div>
+          <label class="text-xs font-bold text-slate-400 uppercase">Data</label>
+          <input id="date" type="date" class="w-full mt-1 bg-slate-800/80 border-slate-700 rounded-xl text-sm focus:ring-primary focus:border-primary"/>
+        </div>
+        <div>
+          <label class="text-xs font-bold text-slate-400 uppercase">Horário</label>
+          <div id="slots" class="grid grid-cols-4 gap-2 mt-1"></div>
+        </div>
+      </div>
+
+      <!-- Motivo -->
+      <div>
+        <label class="text-xs font-bold text-slate-400 uppercase">Motivo (opcional · pode vir preenchido pelo Gêmeo Digital)</label>
+        <textarea id="reason" rows="5" placeholder="Descreva brevemente seus sintomas ou o motivo da consulta…" class="w-full mt-1 bg-slate-800/80 border-slate-700 rounded-xl text-sm leading-relaxed focus:ring-primary focus:border-primary" style="min-height:120px"></textarea>
+      </div>
+    </section>
+
+    <!-- Resumo -->
+    <aside class="card p-6 h-fit lg:sticky lg:top-24">
+      <h3 class="font-bold mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-primary">event_available</span> Resumo</h3>
+      <dl class="space-y-2.5 text-sm">
+        <div class="flex justify-between"><dt class="text-slate-400">Tipo</dt><dd id="r-type" class="font-medium text-right">-</dd></div>
+        <div class="flex justify-between"><dt class="text-slate-400">Especialidade</dt><dd id="r-spec" class="font-medium text-right">-</dd></div>
+        <div class="flex justify-between"><dt class="text-slate-400">Médico</dt><dd id="r-doc" class="font-medium text-right">-</dd></div>
+        <div class="flex justify-between"><dt class="text-slate-400">Data</dt><dd id="r-date" class="font-medium text-right">-</dd></div>
+        <div class="flex justify-between"><dt class="text-slate-400">Horário</dt><dd id="r-time" class="font-medium text-right">-</dd></div>
+      </dl>
+      <button id="confirm" class="btn btn-primary w-full mt-5"><span class="material-symbols-outlined" style="font-size:18px">check_circle</span> Confirmar agendamento</button>
+    </aside>
+  </div>
+</main>
+
+<!-- Confirmação -->
+<div id="modal-ok" class="modal">
+  <div class="modal-backdrop" onclick="document.getElementById('modal-ok').classList.remove('open');window.CareLockScroll&&CareLockScroll(false)"></div>
+  <div class="modal-panel p-7 text-center" style="max-width:420px">
+    <div class="size-16 mx-auto rounded-full grid place-items-center bg-emerald-500/15 mb-4"><span class="material-symbols-outlined text-emerald-400" style="font-size:40px">check_circle</span></div>
+    <h2 class="text-xl font-black mb-1">Consulta agendada!</h2>
+    <p id="ok-msg" class="text-slate-400 text-sm mb-2"></p>
+    <p class="text-slate-500 text-xs mb-5">Protocolo <b id="ok-proto" class="text-slate-300"></b></p>
+    <div class="flex gap-2">
+      <a href="historico.html" class="btn btn-primary flex-1">Ver no histórico</a>
+      <a href="index.html" class="btn btn-soft flex-1">Dashboard</a>
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/guard.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/avatar.js"></script>
+<script src="assets/js/shell.js"></script>
+<script src="assets/js/consultas.js"></script>
+</body>
+</html>

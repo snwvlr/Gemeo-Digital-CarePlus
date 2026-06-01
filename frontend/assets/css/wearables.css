@@ -1,0 +1,5 @@
+/* CarePlus - estilos da página wearables */
+.glass-card { background: rgba(30,41,59,0.5); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
+.pulse { animation: pulse 2s cubic-bezier(0.4,0,0.6,1) infinite; }
+@keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:.4;} }
+.metric { transition: all .3s ease; }

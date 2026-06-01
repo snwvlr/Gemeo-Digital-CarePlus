@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html class="dark" lang="pt-BR">
+<head>
+<style>html,body{background:#0b1120}</style>
+<meta charset="utf-8"/>
+<meta name="cp-sig" content="c0622bb0"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CarePlus · Painel do Médico</title>
+<script>(function(){var _w=console.warn;console.warn=function(){var a=arguments[0];if(typeof a==="string"&&a.indexOf("cdn.tailwindcss.com")>-1)return;return _w.apply(console,arguments);};})();</script>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<script src="assets/js/tailwind.config.js"></script>
+<link rel="stylesheet" href="assets/css/base.css"/>
+<link rel="stylesheet" href="assets/css/painel-medico.css"/>
+</head>
+<body class="aurora text-slate-100 min-h-screen">
+
+<!-- Topo médico -->
+<header class="relative z-10 px-5 lg:px-10 py-4 border-b border-slate-800 flex items-center justify-between gap-3 flex-wrap">
+  <div class="flex items-center gap-3">
+    <div class="size-9 rounded-xl bg-primary/20 flex items-center justify-center">
+      <span class="material-symbols-outlined text-primary" style="font-size:20px">stethoscope</span>
+    </div>
+    <div>
+      <div class="font-black text-sm">CarePlus · Painel do Médico</div>
+      <div id="doc-name" class="text-[11px] text-slate-400">Teleconsulta</div>
+    </div>
+  </div>
+  <div class="flex items-center gap-2">
+    <span class="flex items-center gap-1.5 text-[11px] text-emerald-300 bg-emerald-500/10 border border-emerald-500/25 px-3 py-1.5 rounded-full">
+      <span class="live-dot"></span> Monitorando seus pacientes
+    </span>
+    <div class="lgpd-notice px-3 py-1.5 text-[11px] text-amber-300 flex items-center gap-1.5">
+      <span class="material-symbols-outlined" style="font-size:14px">lock</span>
+      Zero-Data Footprint · LGPD
+    </div>
+    <a href="index.html" title="Voltar ao painel do paciente"
+       class="flex items-center gap-1 text-[11px] font-semibold text-slate-300 hover:text-primary bg-slate-800/60 border border-slate-700/60 hover:border-primary/40 px-3 py-1.5 rounded-full transition-colors">
+      <span class="material-symbols-outlined" style="font-size:15px">arrow_back</span> Voltar
+    </a>
+  </div>
+</header>
+
+<main class="relative z-10 px-5 lg:px-10 py-6 max-w-[1320px] mx-auto">
+
+  <div class="grid grid-cols-1 lg:grid-cols-[360px_1fr] gap-6">
+
+    <!-- ============== COLUNA ESQUERDA: GÊMEO DIGITAL DO PACIENTE ============== -->
+    <aside class="flex flex-col gap-4">
+
+      <!-- Identidade do paciente (mesmo paciente do app) -->
+      <div class="card p-5">
+        <div class="flex items-center gap-4 mb-4">
+          <div id="doc-avatar" class="doc-avatar shrink-0">
+            <img id="rx-avatar" alt="Avatar do paciente" src=""/>
+          </div>
+          <div class="min-w-0">
+            <div id="p-name" class="font-black text-lg leading-tight truncate">Carregando…</div>
+            <div id="p-sub" class="text-slate-400 text-sm">lendo perfil do paciente…</div>
+            <div class="mt-1.5 flex items-center gap-1 text-[10px] text-slate-500 uppercase tracking-wide">
+              <span class="material-symbols-outlined" style="font-size:13px">link</span>
+              mesmo Gêmeo Digital do paciente
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-[11px] text-slate-400 uppercase tracking-wide font-semibold">Estado do Gêmeo Digital</span>
+          <span id="twin-badge" class="chip chip-muted">—</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="h-2 flex-1 rounded-full bg-slate-700 overflow-hidden">
+            <div id="health-bar" class="h-full rounded-full transition-all" style="width:0%;background:#1152d4"></div>
+          </div>
+          <span id="health-score" class="text-sm font-black text-slate-300">–/100</span>
+        </div>
+        <p id="twin-summary" class="text-xs text-slate-400 mt-2 leading-relaxed">—</p>
+      </div>
+
+      <!-- Sinais vitais ao vivo -->
+      <div class="card p-5">
+        <h3 class="text-xs font-bold uppercase tracking-wide text-slate-400 mb-3 flex items-center gap-1.5">
+          <span class="material-symbols-outlined" style="font-size:16px">monitor_heart</span>
+          Sinais Vitais (wearable) · ao vivo
+        </h3>
+        <div class="grid grid-cols-3 gap-2" id="vitals-grid">
+          <!-- preenchido via JS -->
+        </div>
+        <div id="alerts-box" class="mt-3 flex flex-col gap-1.5"></div>
+      </div>
+
+      <!-- Perfil clínico -->
+      <div class="card p-5">
+        <h3 class="text-xs font-bold uppercase tracking-wide text-slate-400 mb-3 flex items-center gap-1.5">
+          <span class="material-symbols-outlined" style="font-size:16px">clinical_notes</span>
+          Perfil Clínico
+        </h3>
+        <div class="flex flex-col gap-2 text-sm">
+          <div class="flex gap-2"><span class="text-slate-500 w-28 shrink-0">Alergias</span><span id="p-allergies" class="text-red-300 font-medium">—</span></div>
+          <div class="flex gap-2"><span class="text-slate-500 w-28 shrink-0">Condições</span><span id="p-conditions">—</span></div>
+          <div class="flex gap-2"><span class="text-slate-500 w-28 shrink-0">Uso contínuo</span><span id="p-meds">—</span></div>
+          <div class="flex gap-2"><span class="text-slate-500 w-28 shrink-0">Sintomas</span><span id="p-symptoms" class="text-amber-300">—</span></div>
+        </div>
+      </div>
+
+      <!-- Relato do paciente (o que ele contou à IA) + relatório clínico -->
+      <div class="card p-5">
+        <h3 class="text-xs font-bold uppercase tracking-wide text-slate-400 mb-3 flex items-center gap-1.5">
+          <span class="material-symbols-outlined" style="font-size:16px">forum</span>
+          Relato do Paciente
+        </h3>
+        <div id="relato-box" class="flex flex-col gap-1.5 max-h-44 overflow-y-auto thin-scroll">
+          <p class="text-xs text-slate-500">Sem relatos do paciente ainda. O que ele escrever no Gêmeo Digital aparece aqui.</p>
+        </div>
+        <div class="mt-3 flex items-center gap-2">
+          <input id="relato-input" type="text" placeholder="Inserir relato recebido por fora (telefone, etc.)…"
+            class="flex-1 bg-slate-800/60 border border-slate-700/60 rounded-lg px-3 py-2 text-xs text-slate-100 placeholder-slate-500"/>
+          <button id="relato-add" class="btn btn-soft shrink-0" style="padding:.45rem .65rem;font-size:.75rem">
+            <span class="material-symbols-outlined" style="font-size:16px">add</span> Inserir
+          </button>
+        </div>
+        <button id="btn-report" class="btn btn-soft w-full mt-3" style="font-size:.8rem;padding:.5rem .8rem">
+          <span class="material-symbols-outlined" style="font-size:16px">clinical_notes</span>
+          Gerar relatório clínico (IA)
+        </button>
+        <div id="report-box" class="hidden mt-3 p-3 rounded-xl bg-slate-800/50 border border-slate-700/50 text-xs text-slate-200 leading-relaxed whitespace-pre-wrap"></div>
+      </div>
+    </aside>
+
+    <!-- ============== COLUNA DIREITA: PRESCRIÇÃO ============== -->
+    <section class="flex flex-col gap-5">
+
+      <!-- Anotações da consulta -->
+      <div class="card p-6">
+        <h2 class="text-lg font-black mb-1 flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary">edit_note</span>
+          Anotações da Teleconsulta
+        </h2>
+        <p class="text-slate-400 text-sm mb-4">Descreva os achados clínicos. A IA cruza isto com os sinais vitais do Gêmeo Digital para sugerir a prescrição.</p>
+        <textarea id="consulta-notes" rows="5"
+          class="w-full bg-slate-800/50 border border-slate-700/60 rounded-xl px-4 py-3 text-sm text-slate-100 resize-none placeholder-slate-500 transition-all"
+          placeholder="Ex: Paciente com febre há 2 dias, dor no corpo, sem dispneia…"></textarea>
+
+        <div class="flex items-center justify-between mt-4 gap-3 flex-wrap">
+          <p class="text-[11px] text-slate-500 flex items-center gap-1">
+            <span class="material-symbols-outlined" style="font-size:13px">info</span>
+            Processado localmente — não armazenado nos servidores Care Plus.
+          </p>
+          <button id="btn-ai-rx" class="btn btn-primary btn-ai">
+            <span class="material-symbols-outlined" style="font-size:18px">auto_awesome</span>
+            Sugerir Prescrição com IA
+          </button>
+        </div>
+      </div>
+
+      <!-- Área da prescrição -->
+      <div id="rx-section" class="hidden card p-6">
+        <div class="flex items-center justify-between mb-4 gap-2 flex-wrap">
+          <h2 class="text-lg font-black flex items-center gap-2">
+            <span class="material-symbols-outlined text-emerald-400">description</span>
+            Rascunho de Prescrição
+          </h2>
+          <span class="chip chip-warn"><span class="material-symbols-outlined" style="font-size:13px">edit</span>Rascunho — revisão obrigatória</span>
+        </div>
+
+        <div id="rx-model-label" class="text-[11px] text-slate-500 mb-3"></div>
+
+        <!-- Cards estruturados -->
+        <div id="rx-cards" class="flex flex-col gap-4"></div>
+
+        <!-- Aviso ético -->
+        <div class="mt-4 flex items-start gap-2 text-xs text-amber-300 bg-amber-500/10 border border-amber-500/20 rounded-xl p-3">
+          <span class="material-symbols-outlined shrink-0 mt-0.5" style="font-size:15px">gavel</span>
+          <span>Rascunho gerado por IA como apoio à decisão clínica. A prescrição final é de <strong>responsabilidade exclusiva do médico</strong> e deve ser revisada antes do envio. A Care Plus não armazena prescrições em servidores centrais (LGPD).</span>
+        </div>
+
+        <!-- Campo de edição -->
+        <div class="mt-4">
+          <label class="text-xs text-slate-400 uppercase tracking-wide font-semibold mb-2 block">Editar / complementar o texto antes de assinar</label>
+          <textarea id="rx-edit" rows="7"
+            class="w-full bg-slate-800/50 border border-slate-700/60 rounded-xl px-4 py-3 text-[13px] text-slate-100 resize-y font-mono transition-all"
+            placeholder="Edite a prescrição aqui…"></textarea>
+        </div>
+
+        <div class="flex items-center justify-between mt-4 gap-3 flex-wrap">
+          <button id="btn-regenerate" class="btn btn-soft btn-ai">
+            <span class="material-symbols-outlined" style="font-size:16px">refresh</span>
+            Regerar
+          </button>
+          <button id="btn-sign" class="btn btn-sign">
+            <span class="material-symbols-outlined" style="font-size:18px">verified</span>
+            Assinar e Enviar ao Paciente
+          </button>
+        </div>
+      </div>
+
+      <!-- Banner de envio confirmado -->
+      <div id="sent-banner" class="hidden card p-5 flex items-start gap-3" style="border-color:rgba(16,185,129,.3);background:rgba(16,185,129,0.08)">
+        <span class="material-symbols-outlined text-emerald-400 shrink-0 mt-0.5" style="font-size:28px">check_circle</span>
+        <div>
+          <div class="font-black text-emerald-400">Prescrição assinada e enviada!</div>
+          <p class="text-slate-300 text-sm mt-1">O paciente recebe um aviso no <strong>Dashboard</strong>, o registro entra no <strong>Histórico</strong> e os itens vão para <strong>Medicamentos</strong>. Os dados ficam apenas em memória RAM (Zero-Data Footprint).</p>
+          <p id="sent-time" class="text-xs text-slate-500 mt-1"></p>
+          <a href="index.html" class="inline-flex items-center gap-1 mt-2 text-xs font-bold text-emerald-400 hover:text-emerald-300">
+            <span class="material-symbols-outlined" style="font-size:15px">open_in_new</span> Ver como o paciente recebe (Dashboard)
+          </a>
+        </div>
+      </div>
+
+    </section>
+  </div>
+</main>
+
+<!-- Proteção anti-adulteração (mesma das demais páginas: valida cp-sig e tranca se alterado) -->
+<script src="assets/js/guard.js"></script>
+<script src="assets/js/avatar.js"></script>
+<!-- shell: injeta o rodapé de privacidade (LGPD) e helpers (CareToast). No
+     Painel do Médico ele NÃO troca o cabeçalho próprio desta página. -->
+<script src="assets/js/shell.js"></script>
+<!-- lógica da tela (separada do HTML): perfil, vitais, relato e prescrição. -->
+<script src="assets/js/painel-medico.js"></script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+# Dependências da aplicação (usado pelo Pterodactyl em /home/container).
+# As mesmas de backend/requirements.txt, para o entrypoint app.py na raiz.
+fastapi>=0.115
+uvicorn[standard]>=0.34
+pydantic>=2.11
+pydantic-settings>=2.7
+google-genai>=1.10
+python-dotenv>=1.0
